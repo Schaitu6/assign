@@ -1,0 +1,9 @@
+<center>
+    <h1><%= @user.username %> Profile </h1>
+    <%= gravatar_for @user ,size:200 %> <br>
+
+    <%= link_to "Back to home", root_path %>
+
+    <%= render 'articles/article' %>
+
+</center>
