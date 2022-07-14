@@ -1,9 +1,11 @@
 <center>
+
     <h1><%= @user.username %> Profile </h1>
     <%= gravatar_for @user ,size:200 %> <br>
     <%= link_to "Edit your profile", edit_user_path(@user) %> <br>
-    <%= link_to "Back to home", root_path %> <br>
-
+    <%= link_to "Back to home", root_path %> <br> |
+    <%= link_to 'Logout', logout_path , data: { "turbo-method": :delete} %>
+    <%= will_paginate @articles %>
     <%= render 'articles/article' %>
 
 </center>

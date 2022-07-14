@@ -1,5 +1,5 @@
 <h1> Showing selected article</h1>
-
+<%= link_to 'Logout', logout_path , data: { "turbo-method": :delete} %>
 <p> Title: <%= @article.title %> </p>
 <p> Description: <%= @article.description %> </p>
 <p> by <%= @article.user.username if @article.user %> </p>
