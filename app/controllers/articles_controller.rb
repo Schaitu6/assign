@@ -1,4 +1,8 @@
 class ArticlesController < ApplicationController
+    before_action :set_article, only: [:show, :edit, :update, :destroy]
+    before_action :require_user , except: [:show, :index]
+    before_action :require_same_user, only: [:edit, :update, :destroy]
+
     def index 
         @articles = Article.paginate(page: params[:page], per_page: 4)
     end
@@ -8,13 +12,13 @@ class ArticlesController < ApplicationController
     end
 
     def edit 
-        @article = Article.find(params[:id])
+        #@article = Article.find(params[:id])
     end
 
     def create
         #render plain: params[:article].inspect
         @article = Article.new(article_params)
-        @article.user = User.first
+        @article.user = current_user
         if @article.save 
             flash[:notice] = "Article was successfully created"
             redirect_to (@article)
@@ -24,7 +28,7 @@ class ArticlesController < ApplicationController
     end
 
     def update 
-        @article=Article.find(params[:id])
+        #@article=Article.find(params[:id])
         if @article.update(article_params)
             flash[:notice] = "Article was Successfully updated"
             redirect_to (@article)
@@ -34,11 +38,11 @@ class ArticlesController < ApplicationController
     end
 
     def show
-        @article = Article.find(params[:id])
+        #@article = Article.find(params[:id])
     end
     
     def destroy 
-        @article = Article.find(params[:id])
+        #@article = Article.find(params[:id])
         @article.destroy 
         flash[:notice] = "Article was successfully deleted"
         redirect_to articles_path    
@@ -46,6 +50,16 @@ class ArticlesController < ApplicationController
     private
         def article_params
             params.require(:article).permit(:title, :description)
+        end
+
+        def set_article
+            @article = Article.find(params[:id])
+        end
+        def require_same_user 
+            if current_user != @article.user && !current_user.admin?
+                flash[:alert] =" You can delete or update your own record"
+                redirect_to @article 
+            end
         end
 
 
