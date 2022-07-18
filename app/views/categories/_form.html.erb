@@ -1,0 +1,18 @@
+<% if @category.errors.any? %>
+    <h2 class="alert" > The following errors prevented the user from creating</h2>
+    <ul class ="alert-heading">
+    <% @category.errors.full_messages.each do |msg| %>
+    <li> <%= msg %> </li>
+    <% end %>
+    </ul>
+    <% end %>
+    <%= form_for @category do |f| %>
+    <p>
+    <%= f.label :name, "Category name" %> <br>
+    <%= f.text_field :name %>
+    </p>
+    <p>
+    <%= f.submit %>
+    </p>
+
+<%end%> 
